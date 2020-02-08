@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_content_height"
+    android:gravity="center_vertical"
+    android:maxHeight="@dimen/list_content_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/small_spacing_size"
+    android:paddingEnd="@dimen/small_spacing_size">
+
+    <TextView
+        android:id="@+id/list_item_gather_name_tv"
+        style="@style/BaseText"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:textSize="@dimen/font_small" />
+
+    <TextView
+        android:id="@+id/list_item_gather_phone_tv"
+        style="@style/BaseText"
+        android:layout_width="100dp"
+        android:layout_marginStart="@dimen/tiny_spacing_size"
+        android:gravity="start|center_vertical"
+        android:textSize="@dimen/font_small" />
+
+    <ImageView
+        android:id="@+id/list_item_gather_edit_iv"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:background="@drawable/bg_list_edit"
+        android:contentDescription="@null"
+        android:scaleType="center"
+        android:src="@drawable/ic_edit" />
+
+    <ImageView
+        android:id="@+id/list_item_gather_del_iv"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/small_spacing_size"
+        android:background="@drawable/bg_list_del"
+        android:contentDescription="@null"
+        android:scaleType="center"
+        android:src="@drawable/ic_del" />
+
+</LinearLayout>

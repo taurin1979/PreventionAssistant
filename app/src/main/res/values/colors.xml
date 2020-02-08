@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--标题文字颜色-->
+    <color name="font_title">#FFFFFF</color>
+    <!--主要文字颜色-->
+    <color name="font_normal">#222222</color>
+    <!--提示文字颜色-->
+    <color name="font_prompt">#555555</color>
+    <!--列表分隔线颜色-->
+    <color name="separator_line">#CCCCCC</color>
+
+</resources>

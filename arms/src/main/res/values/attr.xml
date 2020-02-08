@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--加载进度条控件-->
+    <declare-styleable name="LoadingView">
+        <!--控件大小-->
+        <attr name="lv_size" format="dimension" />
+        <!--控件颜色-->
+        <attr name="lv_color" format="color" />
+        <!--转一圈花费时长-->
+        <attr name="lv_duration" format="integer" />
+        <!--圆圈与边框间隔-->
+        <attr name="lv_padding" format="dimension" />
+    </declare-styleable>
+</resources>

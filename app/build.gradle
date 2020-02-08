@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        applicationId "com.anlv.prevention.assistant"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["compileSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs {
+        release {// 签名配置
+            keyAlias 'anlv'
+            keyPassword 'anlv123456'
+            storeFile file('../anlv.jks')
+            storePassword 'anlv123456'
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //support
+    implementation project(':arms')
+    //tool
+    annotationProcessor rootProject.ext.dependencies['daggerCompiler']
+    api rootProject.ext.dependencies["androidUtil"]
+    api rootProject.ext.dependencies["uuidGenerator"]
+    api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["pickerView"]
+    //view
+    annotationProcessor rootProject.ext.dependencies['butterKnifeCompiler']
+    //test
+    debugImplementation rootProject.ext.dependencies['canaryDebug']
+    releaseImplementation rootProject.ext.dependencies['canaryRelease']
+    testImplementation rootProject.ext.dependencies['canaryRelease']
+}

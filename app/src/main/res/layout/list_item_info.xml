@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="#FFFFFF"
+    android:baselineAligned="false"
+    android:gravity="start|center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/tiny_spacing_size"
+    android:paddingEnd="@dimen/tiny_spacing_size">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/list_item_info_name_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textSize="@dimen/font_small" />
+
+        <TextView
+            android:id="@+id/list_item_info_temperature_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="3dp"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/list_item_info_identity_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textSize="@dimen/font_small" />
+
+        <TextView
+            android:id="@+id/list_item_info_area_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="3dp"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/list_item_info_phone_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textSize="@dimen/font_small" />
+
+        <TextView
+            android:id="@+id/list_item_info_date_tv"
+            style="@style/BaseText"
+            android:layout_height="25dp"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/font_prompt"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+
+</LinearLayout>

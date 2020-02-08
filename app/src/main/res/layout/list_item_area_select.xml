@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_area_select_name_tv"
+    style="@style/BaseText"
+    android:layout_width="match_parent"
+    android:height="@dimen/list_content_height"
+    android:gravity="start|center_vertical"
+    android:maxHeight="@dimen/list_content_height"
+    android:paddingStart="@dimen/small_spacing_size"
+    android:paddingEnd="@dimen/small_spacing_size"
+    android:textSize="@dimen/font_small" />

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/gather_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:background="#77DCEB"
+        android:text="@string/gather_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/gather_config_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/tiny_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_config"
+        app:layout_constraintBottom_toBottomOf="@id/gather_title_tv"
+        app:layout_constraintEnd_toEndOf="@id/gather_title_tv"
+        app:layout_constraintTop_toTopOf="@id/gather_title_tv" />
+
+    <TextView
+        android:id="@+id/gather_area_name_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:background="#DBF8FC"
+        app:layout_constraintTop_toBottomOf="@id/gather_title_tv" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gather_area_name_tv">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/gather_identity_et"
+                style="@style/BaseEditText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_required"
+                android:drawablePadding="@dimen/tiny_spacing_size"
+                android:hint="身份证号码"
+                android:importantForAutofill="no"
+                android:maxLength="18" />
+
+            <Button
+                android:id="@+id/gather_query_btn"
+                style="@style/BaseButton"
+                android:layout_width="65dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/small_spacing_size"
+                android:layout_marginEnd="@dimen/small_spacing_size"
+                android:text="查询" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <EditText
+            android:id="@+id/gather_name_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="姓名"
+            android:importantForAutofill="no"
+            android:maxLength="20" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <EditText
+            android:id="@+id/gather_phone_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="手机号码"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <EditText
+            android:id="@+id/gather_address_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="住址"
+            android:importantForAutofill="no"
+            android:maxLength="100" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <EditText
+            android:id="@+id/gather_temperature_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="体温"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:maxLength="6" />
+
+        <EditText
+            android:id="@+id/gather_remark_et"
+            style="@style/BaseEditText"
+            android:hint="备注"
+            android:importantForAutofill="no"
+            android:maxLength="100"
+            android:paddingStart="@dimen/middle_spacing_size"
+            android:paddingEnd="@dimen/middle_spacing_size" />
+
+        <Button
+            android:id="@+id/gather_submit_btn"
+            style="@style/BaseButton"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:layout_marginTop="@dimen/super_spacing_size"
+            android:layout_marginEnd="@dimen/middle_spacing_size"
+            android:text="@string/gather_submit" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

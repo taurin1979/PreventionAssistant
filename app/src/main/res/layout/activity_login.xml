@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/login_title_tv"
+        style="@style/TitleText"
+        android:text="@string/app_name" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/super_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/login_gather_btn"
+            style="@style/TopTabButton"
+            android:checked="true"
+            android:text="@string/login_gather_title" />
+
+        <RadioButton
+            android:id="@+id/login_manager_btn"
+            style="@style/TopTabButton"
+            android:text="@string/login_manager_title" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/login_gather_panel_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/login_gather_phone_et"
+            style="@style/BaseEditText"
+            android:hint="@string/login_phone_number"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFE4E9" />
+
+        <EditText
+            android:id="@+id/login_gather_pin_et"
+            style="@style/BaseEditText"
+            android:hint="@string/login_pin_number"
+            android:importantForAutofill="no"
+            android:inputType="numberPassword"
+            android:maxLength="6" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_manager_panel_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/login_manager_phone_et"
+            style="@style/BaseEditText"
+            android:hint="@string/login_phone_number"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFE4E9" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/login_manager_code_et"
+                style="@style/BaseEditText"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/small_spacing_size"
+                android:layout_weight="1"
+                android:hint="@string/login_phone_code"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="6" />
+
+            <Button
+                android:id="@+id/login_manager_get_code_btn"
+                style="@style/BaseButton"
+                android:layout_width="85dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="@dimen/small_spacing_size"
+                android:text="@string/login_get_phone_code"
+                android:textSize="@dimen/font_tiny" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/login_ok_btn"
+        style="@style/BaseButton"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:text="@string/login_ok" />
+
+</LinearLayout>

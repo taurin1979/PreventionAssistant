@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/about_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:background="#77DCEB"
+        android:text="@string/about_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/about_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tiny_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@id/about_title_tv"
+        app:layout_constraintStart_toStartOf="@id/about_title_tv"
+        app:layout_constraintTop_toTopOf="@id/about_title_tv" />
+
+    <ImageView
+        android:id="@+id/about_app_icon_iv"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="@dimen/super_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_title_tv" />
+
+    <TextView
+        android:id="@+id/about_app_name_tv"
+        style="@style/BaseText"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        android:text="@string/app_name"
+        android:textColor="#0FB1CA"
+        android:textSize="@dimen/font_sub_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_app_icon_iv" />
+
+    <TextView
+        android:id="@+id/about_app_version_tv"
+        style="@style/BaseText"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_app_name_tv" />
+
+    <TextView
+        android:id="@+id/about_contact_tv"
+        style="@style/BaseText"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        android:text="@string/about_contact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_app_version_tv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

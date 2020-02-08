@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/area_add_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:background="#77DCEB"
+        android:text="管控区添加"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/area_add_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tiny_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@id/area_add_title_tv"
+        app:layout_constraintStart_toStartOf="@id/area_add_title_tv"
+        app:layout_constraintTop_toTopOf="@id/area_add_title_tv" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/area_add_title_tv">
+
+        <EditText
+            android:id="@+id/area_add_name_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="管控区名称"
+            android:importantForAutofill="no"
+            android:maxLength="50" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <EditText
+            android:id="@+id/area_add_pin_et"
+            style="@style/BaseEditText"
+            android:drawableStart="@drawable/ic_required"
+            android:drawablePadding="@dimen/tiny_spacing_size"
+            android:hint="管控区PIN码"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+        <Button
+            android:id="@+id/area_add_ok_btn"
+            style="@style/BaseButton"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:layout_marginTop="@dimen/middle_spacing_size"
+            android:layout_marginEnd="@dimen/middle_spacing_size"
+            android:text="确认" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

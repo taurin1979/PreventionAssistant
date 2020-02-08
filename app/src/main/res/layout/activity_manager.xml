@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main">
+
+    <TextView
+        android:id="@+id/manager_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:text="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/manager_config_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/tiny_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_config"
+        app:layout_constraintBottom_toBottomOf="@id/manager_title_tv"
+        app:layout_constraintEnd_toEndOf="@id/manager_title_tv"
+        app:layout_constraintTop_toTopOf="@id/manager_title_tv" />
+
+    <LinearLayout
+        android:id="@+id/manager_area_ll"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/huge_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:background="@drawable/bg_card"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/manager_title_tv">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/small_spacing_size"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_area" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BaseText"
+                android:text="管控区管理"
+                android:textColor="#333333"
+                android:textSize="@dimen/font_title" />
+
+            <TextView
+                style="@style/BaseText"
+                android:layout_marginStart="@dimen/tiny_spacing_size"
+                android:layout_marginTop="@dimen/tiny_spacing_size"
+                android:text="配置管控区信息"
+                android:textColor="#666666"
+                android:textSize="@dimen/font_tiny" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/manager_gather_ll"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:background="@drawable/bg_card"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/manager_area_ll">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/small_spacing_size"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_gather" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BaseText"
+                android:text="采集员管理"
+                android:textColor="#333333"
+                android:textSize="@dimen/font_title" />
+
+            <TextView
+                style="@style/BaseText"
+                android:layout_marginStart="@dimen/tiny_spacing_size"
+                android:layout_marginTop="@dimen/tiny_spacing_size"
+                android:text="管理采集人员信息"
+                android:textColor="#666666"
+                android:textSize="@dimen/font_tiny" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/manager_export_ll"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:background="@drawable/bg_card"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/manager_gather_ll">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/small_spacing_size"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_export" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BaseText"
+                android:text="数据导出"
+                android:textColor="#333333"
+                android:textSize="@dimen/font_title" />
+
+            <TextView
+                style="@style/BaseText"
+                android:layout_marginStart="@dimen/tiny_spacing_size"
+                android:layout_marginTop="@dimen/tiny_spacing_size"
+                android:text="导出体温信息统计报表"
+                android:textColor="#666666"
+                android:textSize="@dimen/font_tiny" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

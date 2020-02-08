@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.anlv.prevention.assistant">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.jess.arms.base.BaseApplication"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".mvp.ui.activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".mvp.ui.activity.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.ui.activity.ManagerActivity" />
+        <activity android:name=".mvp.ui.activity.GatherActivity" />
+        <activity android:name=".mvp.ui.activity.AreaSelectActivity" />
+        <activity android:name=".mvp.ui.activity.AreaEditActivity" />
+        <activity android:name=".mvp.ui.activity.AreaAddActivity" />
+        <activity android:name=".mvp.ui.activity.GatherEditActivity" />
+        <activity android:name=".mvp.ui.activity.GatherAddActivity" />
+        <activity android:name=".mvp.ui.activity.ExportActivity" />
+        <activity android:name=".mvp.ui.activity.GatherManageActivity" />
+        <activity android:name=".mvp.ui.activity.AreaManageActivity" />
+        <activity android:name=".mvp.ui.activity.AboutActivity" />
+        <activity android:name=".mvp.ui.activity.ConfigActivity" />
+        <activity android:name=".mvp.ui.activity.QueryActivity" />
+
+        <!-- AutoSize配置 -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="320" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640" />
+
+        <!-- Arms配置 -->
+        <meta-data
+            android:name="com.anlv.prevention.assistant.app.GlobalConfiguration"
+            android:value="ConfigModule" />
+
+    </application>
+
+</manifest>

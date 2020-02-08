@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/config_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:background="#77DCEB"
+        android:text="@string/config_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/config_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tiny_spacing_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@id/config_title_tv"
+        app:layout_constraintStart_toStartOf="@id/config_title_tv"
+        app:layout_constraintTop_toTopOf="@id/config_title_tv" />
+
+    <TextView
+        android:id="@+id/config_about_tv"
+        style="@style/BaseText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/middle_spacing_size"
+        android:drawableStart="@drawable/ic_about"
+        android:drawableEnd="@drawable/ic_right"
+        android:drawablePadding="@dimen/small_spacing_size"
+        android:gravity="start|center_vertical"
+        android:paddingStart="@dimen/small_spacing_size"
+        android:paddingEnd="@dimen/small_spacing_size"
+        android:text="@string/config_about"
+        app:layout_constraintTop_toBottomOf="@id/config_title_tv" />
+
+    <Button
+        android:id="@+id/config_logout_btn"
+        style="@style/BaseButton"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/small_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:text="@string/config_logout"
+        app:layout_constraintTop_toBottomOf="@id/config_about_tv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
