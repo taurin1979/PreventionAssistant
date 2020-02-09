@@ -30,11 +30,16 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false//开源软件，关闭混淆
+            shrinkResources false
             zipAlignEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "PreventionAssistant_v${variant.versionName}.${variant.versionCode}.apk"
+                }
+            }
         }
     }
     lintOptions {
