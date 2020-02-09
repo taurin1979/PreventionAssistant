@@ -88,9 +88,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void initData(@Nullable Bundle savedInstanceState) {
         btnGather.setButtonDrawable(new StateListDrawable());
         btnManager.setButtonDrawable(new StateListDrawable());
-        //TODO:测试
-        etGatherPhone.setText("13588455586");
-        etGatherPin.setText("888888");
     }
 
     @Override

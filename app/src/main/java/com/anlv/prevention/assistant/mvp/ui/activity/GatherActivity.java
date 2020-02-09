@@ -1,7 +1,10 @@
 package com.anlv.prevention.assistant.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -10,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.anlv.prevention.assistant.R;
 import com.anlv.prevention.assistant.app.utils.JsonUtils;
+import com.anlv.prevention.assistant.app.utils.KeyBoardUtil;
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.di.component.DaggerGatherComponent;
 import com.anlv.prevention.assistant.mvp.contract.GatherContract;
@@ -55,6 +59,8 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
     EditText etTemperature;
     @BindView(R.id.gather_remark_et)
     EditText etRemark;
+    @BindView(R.id.gather_keyboard_kv)
+    KeyboardView mKeyboard;
 
     private long exitTime = 0;
 
@@ -73,9 +79,15 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
         return R.layout.activity_gather; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        etIdentity.setOnTouchListener((view, event) -> {
+            if (etIdentity.hasFocus()) {
+                new KeyBoardUtil(mKeyboard, etIdentity).showKeyboard();
+            }
+            return false;
+        });
     }
 
     @Override
