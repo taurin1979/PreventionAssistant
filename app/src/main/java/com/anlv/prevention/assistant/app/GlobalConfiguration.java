@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import com.anlv.prevention.assistant.BuildConfig;
+import com.anlv.prevention.assistant.app.factory.SSLSocketFactoryImpl;
 import com.anlv.prevention.assistant.app.utils.ConstantUtils;
 import com.anlv.prevention.assistant.mvp.model.api.Api;
 import com.blankj.utilcode.util.Utils;
@@ -31,8 +32,11 @@ import com.jess.arms.http.log.RequestInterceptor;
 import com.jess.arms.integration.ConfigModule;
 
 import java.lang.reflect.Modifier;
+import java.security.KeyStore;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import timber.log.Timber;
 
 /**
  * ================================================
@@ -59,27 +63,35 @@ public final class GlobalConfiguration implements ConfigModule {
             mainBuilder.printHttpLogLevel(RequestInterceptor.Level.NONE);
         }
         Utils.init(mainContext);
-        mainBuilder.baseurl(Api.APP_DOMAIN)
-                //这里提供一个全局处理 Http 请求和响应结果的处理类, 可以比客户端提前一步拿到服务器返回的结果, 可以做一些操作, 比如 Token 超时后, 重新获取 Token
-                .globalHttpHandler(new GlobalHttpHandlerImpl(mainContext))
-                //用来处理 RxJava 中发生的所有错误, RxJava 中发生的每个错误都会回调此接口
-                //RxJava 必须要使用 ErrorHandleSubscriber (默认实现 Subscriber 的 onError 方法), 此监听才生效
-                .responseErrorListener(new ResponseErrorListenerImpl())
-                .gsonConfiguration((context, builder) -> {//这里可以自己自定义配置 Gson 的参数
-                    builder.serializeNulls()//支持序列化值为 null 的参数
-                            .setDateFormat(ConstantUtils.PATTERN_DEFAULT)//自定义时间格式
-                            .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.FINAL, Modifier.PUBLIC)//指定序列化忽略成员
-                            .enableComplexMapKeySerialization();//支持将序列化 key 为 Object 的 Map, 默认只能序列化 key 为 String 的 Map
-                })
-                .okhttpConfiguration((context, builder) -> {//这里可以自己自定义配置 Okhttp 的参数
-                    builder.connectTimeout(15, TimeUnit.SECONDS)
-                            .readTimeout(15, TimeUnit.SECONDS)
-                            .writeTimeout(15, TimeUnit.SECONDS);
-                })
-                .rxCacheConfiguration((context, builder) -> {//这里可以自己自定义配置 RxCache 的参数
-                    builder.useExpiredDataIfLoaderNotAvailable(true);
-                    return null;
-                });
+
+        try {
+            SSLSocketFactoryImpl sslSocketFactory = new SSLSocketFactoryImpl(KeyStore.getInstance(KeyStore.getDefaultType()));
+            mainBuilder.baseurl(Api.APP_DOMAIN)
+                    //这里提供一个全局处理 Http 请求和响应结果的处理类, 可以比客户端提前一步拿到服务器返回的结果, 可以做一些操作, 比如 Token 超时后, 重新获取 Token
+                    .globalHttpHandler(new GlobalHttpHandlerImpl(mainContext))
+                    //用来处理 RxJava 中发生的所有错误, RxJava 中发生的每个错误都会回调此接口
+                    //RxJava 必须要使用 ErrorHandleSubscriber (默认实现 Subscriber 的 onError 方法), 此监听才生效
+                    .responseErrorListener(new ResponseErrorListenerImpl())
+                    .gsonConfiguration((context, builder) -> {//这里可以自己自定义配置 Gson 的参数
+                        builder.serializeNulls()//支持序列化值为 null 的参数
+                                .setDateFormat(ConstantUtils.PATTERN_DEFAULT)//自定义时间格式
+                                .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.FINAL, Modifier.PUBLIC)//指定序列化忽略成员
+                                .enableComplexMapKeySerialization();//支持将序列化 key 为 Object 的 Map, 默认只能序列化 key 为 String 的 Map
+                    })
+                    .okhttpConfiguration((context, builder) -> {//这里可以自己自定义配置 Okhttp 的参数
+                        builder.connectTimeout(15, TimeUnit.SECONDS)
+                                .readTimeout(15, TimeUnit.SECONDS)
+                                .writeTimeout(15, TimeUnit.SECONDS)
+                                .sslSocketFactory(sslSocketFactory.getSSLContext().getSocketFactory(), sslSocketFactory.getTrustManager())
+                                .hostnameVerifier((hostname, session) -> true);
+                    })
+                    .rxCacheConfiguration((context, builder) -> {//这里可以自己自定义配置 RxCache 的参数
+                        builder.useExpiredDataIfLoaderNotAvailable(true);
+                        return null;
+                    });
+        } catch (Exception e) {
+            Timber.e(e);
+        }
     }
 
     @Override

@@ -2,15 +2,18 @@ package com.anlv.prevention.assistant.mvp.model;
 
 import android.app.Application;
 
+import com.anlv.prevention.assistant.app.utils.GlobalUtils;
+import com.anlv.prevention.assistant.mvp.contract.GatherContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.anlv.prevention.assistant.mvp.model.api.service.CommonService;
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import com.jess.arms.di.scope.ActivityScope;
-
 import javax.inject.Inject;
 
-import com.anlv.prevention.assistant.mvp.contract.GatherContract;
+import io.reactivex.Observable;
 
 
 /**
@@ -33,7 +36,7 @@ public class GatherModel extends BaseModel implements GatherContract.Model {
     Application mApplication;
 
     @Inject
-    public GatherModel(IRepositoryManager repositoryManager) {
+    GatherModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
@@ -42,5 +45,12 @@ public class GatherModel extends BaseModel implements GatherContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResult<String>> report(String certificateNumber, String name, String phoneNumber, String address, String temperature, String remark) {
+        return mRepositoryManager.obtainRetrofitService(CommonService.class)
+                .report(GlobalUtils.gather.getAreaName(), certificateNumber, name,
+                        phoneNumber, address, temperature, remark);
     }
 }

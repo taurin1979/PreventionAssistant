@@ -95,9 +95,14 @@ public class ConfigActivity extends BaseActivity<ConfigPresenter> implements Con
                 ActivityUtils.startActivity(AboutActivity.class);
                 break;
             case R.id.config_logout_btn:
-                ActivityUtils.startActivity(LoginActivity.class);
-                killMyself();
+                mPresenter.logout();
                 break;
         }
+    }
+
+    @Override
+    public void logoutSuccess() {
+        ActivityUtils.startActivity(LoginActivity.class);
+        killMyself();
     }
 }

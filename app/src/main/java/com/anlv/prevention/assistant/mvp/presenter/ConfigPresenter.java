@@ -2,16 +2,19 @@ package com.anlv.prevention.assistant.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
+import com.anlv.prevention.assistant.app.utils.ToolUtils;
+import com.anlv.prevention.assistant.mvp.contract.ConfigContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.blankj.utilcode.util.SPUtils;
 import com.jess.arms.di.scope.ActivityScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 
 import javax.inject.Inject;
 
-import com.anlv.prevention.assistant.mvp.contract.ConfigContract;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
 
 /**
@@ -49,5 +52,22 @@ public class ConfigPresenter extends BasePresenter<ConfigContract.Model, ConfigC
         this.mAppManager = null;
         this.mImageLoader = null;
         this.mApplication = null;
+    }
+
+    public void logout() {
+        mModel.userLogout()
+                .compose(ToolUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            SPUtils.getInstance().remove("loginType");
+                            SPUtils.getInstance().remove("sessionId");
+                            mRootView.logoutSuccess();
+                        } else {
+                            mRootView.showMessage("用户登出失败");
+                        }
+                    }
+                });
     }
 }

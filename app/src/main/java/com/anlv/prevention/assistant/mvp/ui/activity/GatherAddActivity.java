@@ -157,6 +157,6 @@ public class GatherAddActivity extends BaseActivity<GatherAddPresenter> implemen
             return;
         }
 
-        mPresenter.gatherAdd(name, phone, areaId);
+        mPresenter.gatherAdd(areaId, name, phone);
     }
 }

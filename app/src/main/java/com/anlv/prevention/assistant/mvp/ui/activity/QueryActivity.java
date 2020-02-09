@@ -74,9 +74,6 @@ public class QueryActivity extends BaseActivity<QueryPresenter> implements Query
                 .build()
                 .addTo(rvList);
         ArmsUtils.configRecyclerView(rvList, new LinearLayoutManager(this));
-
-        //TODO:测试
-        etIdentity.setText("110100201001011234");
     }
 
     @Override

@@ -2,15 +2,17 @@ package com.anlv.prevention.assistant.mvp.model;
 
 import android.app.Application;
 
+import com.anlv.prevention.assistant.mvp.contract.ConfigContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.anlv.prevention.assistant.mvp.model.api.service.CommonService;
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import com.jess.arms.di.scope.ActivityScope;
-
 import javax.inject.Inject;
 
-import com.anlv.prevention.assistant.mvp.contract.ConfigContract;
+import io.reactivex.Observable;
 
 
 /**
@@ -42,5 +44,11 @@ public class ConfigModel extends BaseModel implements ConfigContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResult<String>> userLogout() {
+        return mRepositoryManager.obtainRetrofitService(CommonService.class)
+                .userLogout();
     }
 }

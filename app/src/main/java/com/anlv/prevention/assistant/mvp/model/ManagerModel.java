@@ -2,15 +2,13 @@ package com.anlv.prevention.assistant.mvp.model;
 
 import android.app.Application;
 
+import com.anlv.prevention.assistant.mvp.contract.ManagerContract;
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import com.jess.arms.di.scope.ActivityScope;
-
 import javax.inject.Inject;
-
-import com.anlv.prevention.assistant.mvp.contract.ManagerContract;
 
 
 /**
@@ -33,7 +31,7 @@ public class ManagerModel extends BaseModel implements ManagerContract.Model {
     Application mApplication;
 
     @Inject
-    public ManagerModel(IRepositoryManager repositoryManager) {
+    ManagerModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 

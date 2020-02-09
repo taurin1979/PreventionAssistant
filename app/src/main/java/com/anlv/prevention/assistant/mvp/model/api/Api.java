@@ -9,6 +9,5 @@ package com.anlv.prevention.assistant.mvp.model.api;
  * </pre>
  */
 public interface Api {
-    String APP_DOMAIN = "https://api.github.com";
-    String RequestSuccess = "0";
+    String APP_DOMAIN = "https://dev.collect.anlv365.com:20010/collect/";
 }

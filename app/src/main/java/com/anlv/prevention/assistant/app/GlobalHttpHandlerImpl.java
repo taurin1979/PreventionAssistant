@@ -20,6 +20,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.anlv.prevention.assistant.app.utils.GlobalUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.jess.arms.http.GlobalHttpHandler;
 
 import okhttp3.Interceptor;
@@ -67,6 +69,11 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
     @NonNull
     @Override
     public Request onHttpRequestBefore(@NonNull Interceptor.Chain chain, @NonNull Request request) {
+        if (ObjectUtils.isNotEmpty(GlobalUtils.sessionId)) {
+            return chain.request().newBuilder()
+                    .header("Cookie", "JSESSIONID=" + GlobalUtils.sessionId)
+                    .build();
+        }
         return request;
     }
 }

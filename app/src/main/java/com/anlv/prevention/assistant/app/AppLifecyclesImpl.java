@@ -24,6 +24,7 @@ import com.anlv.prevention.assistant.BuildConfig;
 import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.integration.cache.IntelligentCache;
 import com.jess.arms.utils.ArmsUtils;
+import com.nanchen.crashmanager.UncaughtExceptionHandlerImpl;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -52,6 +53,8 @@ public class AppLifecyclesImpl implements AppLifecycles {
             // You should not init your app in this process.
             return;
         }
+
+        UncaughtExceptionHandlerImpl.getInstance().init(application, BuildConfig.DEBUG);
 
         if (BuildConfig.LOG_DEBUG) {//Timber初始化
             //Timber 是一个日志框架容器,外部使用统一的Api,内部可以动态的切换成任何日志框架(打印策略)进行日志打印

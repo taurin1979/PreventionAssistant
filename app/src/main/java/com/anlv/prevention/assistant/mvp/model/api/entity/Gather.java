@@ -34,6 +34,11 @@ public class Gather {
      */
     private String areaName;
 
+    /**
+     * 备注(50)
+     */
+    private String remark;
+
     public String getId() {
         return id;
     }
@@ -72,5 +77,13 @@ public class Gather {
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

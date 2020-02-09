@@ -35,7 +35,7 @@ public class Info {
     /**
      * 电话号码(18)
      */
-    private String phone;
+    private String phoneNumber;
 
     /**
      * 住址(100)
@@ -89,12 +89,12 @@ public class Info {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {

@@ -89,10 +89,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         btnGather.setButtonDrawable(new StateListDrawable());
         btnManager.setButtonDrawable(new StateListDrawable());
         //TODO:测试
-        etGatherPhone.setText("13512345678");
+        etGatherPhone.setText("13588455586");
         etGatherPin.setText("888888");
-        etManagerPhone.setText("13588455586");
-        etManagerCode.setText("888888");
     }
 
     @Override

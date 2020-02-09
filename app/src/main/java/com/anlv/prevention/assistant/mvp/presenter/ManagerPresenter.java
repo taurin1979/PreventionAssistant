@@ -2,16 +2,15 @@ package com.anlv.prevention.assistant.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
+import com.anlv.prevention.assistant.mvp.contract.ManagerContract;
 import com.jess.arms.di.scope.ActivityScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 
 import javax.inject.Inject;
 
-import com.anlv.prevention.assistant.mvp.contract.ManagerContract;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 
 /**
@@ -38,7 +37,7 @@ public class ManagerPresenter extends BasePresenter<ManagerContract.Model, Manag
     AppManager mAppManager;
 
     @Inject
-    public ManagerPresenter(ManagerContract.Model model, ManagerContract.View rootView) {
+    ManagerPresenter(ManagerContract.Model model, ManagerContract.View rootView) {
         super(model, rootView);
     }
 

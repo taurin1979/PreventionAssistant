@@ -10,6 +10,7 @@ package com.anlv.prevention.assistant.app.utils;
  */
 public interface ConstantUtils {
     String PATTERN_DEFAULT = "yyyy-MM-dd HH:mm:ss";//默认的日期时间格式
+    int SPLASH_WAIT_TIME = 2000;//启动页等待时间
     int MAX_COUNT_TIME = 60;//倒计时时间设置
 
     int REQUEST_GATHER_SELECT = 0x101;//历史采集数据选择

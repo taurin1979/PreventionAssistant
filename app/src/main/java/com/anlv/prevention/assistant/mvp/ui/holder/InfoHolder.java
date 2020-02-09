@@ -43,7 +43,7 @@ public class InfoHolder extends BaseHolder<Info> {
         try {
             tvName.setText(data.getName());
             tvIdentity.setText(data.getCertificateNumber());
-            tvPhone.setText(data.getPhone());
+            tvPhone.setText(data.getPhoneNumber());
             tvArea.setText(data.getAreaName());
             tvTemperature.setText(String.valueOf(data.getTemperature()));
             tvDate.setText(TimeUtils.date2String(data.getCreateTime(), "yyyy-MM-dd HH:mm"));

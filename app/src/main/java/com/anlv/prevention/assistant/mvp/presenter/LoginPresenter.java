@@ -5,6 +5,8 @@ import android.app.Application;
 import com.anlv.prevention.assistant.app.utils.GlobalUtils;
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.LoginContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.anlv.prevention.assistant.mvp.model.api.entity.Gather;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -19,9 +21,10 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import timber.log.Timber;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
 import static com.anlv.prevention.assistant.app.utils.ConstantUtils.MAX_COUNT_TIME;
 
@@ -74,17 +77,20 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     public void getPhoneCode(String phoneNumber) {
         mModel.smsVerification(phoneNumber)
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        mRootView.getPhoneCodeSuccess();
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("验证码获取失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            mRootView.getPhoneCodeSuccess();
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("验证码获取失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 
     /**
@@ -93,7 +99,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     public void countDown() {
         Observable.interval(1, TimeUnit.SECONDS, Schedulers.io())
                 .take(MAX_COUNT_TIME)
-                .compose(ToolUtils.applySchedulers(mRootView))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 //将递增数字替换成递减的倒计时数字
                 .map(time -> MAX_COUNT_TIME - (time + 1))
                 .subscribe(count -> mRootView.setCountDown(count));
@@ -108,21 +115,22 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     public void gatherLogin(String phoneNumber, String pinNumber) {
         mModel.gatherLogin(phoneNumber, pinNumber, mAppVersion)
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        GlobalUtils.loginType = 2;
-                        GlobalUtils.sessionId = result.getResult();
-                        SPUtils.getInstance().put("loginType", GlobalUtils.loginType);
-                        SPUtils.getInstance().put("sessionId", GlobalUtils.sessionId);
-                        userInfo();
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("登录失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            GlobalUtils.loginType = 2;
+                            GlobalUtils.sessionId = result.getResult();
+                            userInfo();
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("登录失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 
     /**
@@ -132,23 +140,24 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param phoneCode   验证码
      */
     public void managerLogin(String phoneNumber, String phoneCode) {
-        mModel.gatherLogin(phoneNumber, phoneCode, mAppVersion)
+        mModel.managerLogin(phoneNumber, phoneCode, mAppVersion)
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        GlobalUtils.loginType = 1;
-                        GlobalUtils.sessionId = result.getResult();
-                        SPUtils.getInstance().put("loginType", GlobalUtils.loginType);
-                        SPUtils.getInstance().put("sessionId", GlobalUtils.sessionId);
-                        userInfo();
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("登录失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            GlobalUtils.loginType = 1;
+                            GlobalUtils.sessionId = result.getResult();
+                            userInfo();
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("登录失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 
     /**
@@ -157,17 +166,22 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     private void userInfo() {
         mModel.gatherInfo()
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        GlobalUtils.gather = result.getResult();
-                        mRootView.loginSuccess();
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("登录失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<Gather>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<Gather> result) {
+                        if (result.isSucc()) {
+                            GlobalUtils.gather = result.getResult();
+                            SPUtils.getInstance().put("loginType", GlobalUtils.loginType);
+                            SPUtils.getInstance().put("sessionId", GlobalUtils.sessionId);
+                            mRootView.loginSuccess();
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("登录失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 }

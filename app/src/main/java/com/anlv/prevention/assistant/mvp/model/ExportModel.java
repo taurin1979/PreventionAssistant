@@ -2,15 +2,20 @@ package com.anlv.prevention.assistant.mvp.model;
 
 import android.app.Application;
 
+import com.anlv.prevention.assistant.mvp.contract.ExportContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.anlv.prevention.assistant.mvp.model.api.entity.Info;
+import com.anlv.prevention.assistant.mvp.model.api.service.CommonService;
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import com.jess.arms.di.scope.ActivityScope;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import com.anlv.prevention.assistant.mvp.contract.ExportContract;
+import io.reactivex.Observable;
 
 
 /**
@@ -42,5 +47,11 @@ public class ExportModel extends BaseModel implements ExportContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResult<List<Info>>> queryData(String beginTime, String endTime) {
+        return mRepositoryManager.obtainRetrofitService(CommonService.class)
+                .queryData(beginTime, endTime);
     }
 }

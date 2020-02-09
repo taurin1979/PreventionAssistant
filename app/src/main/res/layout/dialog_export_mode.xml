@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="340dp"
+        android:layout_height="200dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/export_mode_title_tv"
+                style="@style/TitleText"
+                android:layout_width="match_parent"
+                android:background="#77DCEB"
+                android:text="邮箱导出"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/export_mode_close_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/tiny_spacing_size"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@id/export_mode_title_tv"
+                app:layout_constraintEnd_toEndOf="@id/export_mode_title_tv"
+                app:layout_constraintTop_toTopOf="@id/export_mode_title_tv" />
+
+            <EditText
+                android:id="@+id/export_mode_mail_address_et"
+                style="@style/BaseEditText"
+                android:layout_width="210dp"
+                android:layout_height="50dp"
+                android:hint="请输入邮箱"
+                android:importantForAutofill="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/export_mode_mail_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/export_mode_title_tv" />
+
+            <Button
+                android:id="@+id/export_mode_mail_btn"
+                style="@style/BaseButton"
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/small_spacing_size"
+                android:text="发送至邮箱"
+                app:layout_constraintBaseline_toBaselineOf="@id/export_mode_mail_address_et"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/export_mode_mail_address_et" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

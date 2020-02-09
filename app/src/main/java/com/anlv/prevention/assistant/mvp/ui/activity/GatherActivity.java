@@ -119,10 +119,8 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
                 if (ObjectUtils.isNotEmpty(info)) {
                     etIdentity.setText(info.getCertificateNumber());
                     etName.setText(info.getName());
-                    etPhone.setText(info.getPhone());
+                    etPhone.setText(info.getPhoneNumber());
                     etAddress.setText(info.getAddress());
-                    //TODO:测试
-                    etTemperature.setText("36.5");
                 }
             }
         }
@@ -192,14 +190,14 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
                 showMessage("体温输入不正确");
                 return;
             }
-            mPresenter.submit(identity, name, phone, address, temperature, remark);
+            mPresenter.report(identity, name, phone, address, temperature, remark);
         } catch (Exception ignored) {
             showMessage("体温输入不正确");
         }
     }
 
     @Override
-    public void submitSuccess() {
+    public void reportSuccess() {
         clearData();
     }
 

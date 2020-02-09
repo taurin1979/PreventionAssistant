@@ -165,6 +165,6 @@ public class GatherEditActivity extends BaseActivity<GatherEditPresenter> implem
             return;
         }
 
-        mPresenter.updateGather(gatherId, name, phone, areaId);
+        mPresenter.updateGather(gatherId, areaId, name, phone);
     }
 }

@@ -38,7 +38,7 @@ public class AboutPresenter extends BasePresenter<AboutContract.Model, AboutCont
     AppManager mAppManager;
 
     @Inject
-    public AboutPresenter(AboutContract.Model model, AboutContract.View rootView) {
+    AboutPresenter(AboutContract.Model model, AboutContract.View rootView) {
         super(model, rootView);
     }
 

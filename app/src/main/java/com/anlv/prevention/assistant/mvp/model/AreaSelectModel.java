@@ -51,7 +51,7 @@ public class AreaSelectModel extends BaseModel implements AreaSelectContract.Mod
 
     @Override
     public Observable<BaseResult<List<Area>>> getAreaList() {
-        return mRepositoryManager.obtainCacheService(CommonService.class)
+        return mRepositoryManager.obtainRetrofitService(CommonService.class)
                 .queryArea();
     }
 }

@@ -175,7 +175,6 @@ public class DataHelper {
             device = (T) bis.readObject();
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return device;

@@ -2,7 +2,10 @@ package com.anlv.prevention.assistant.mvp.presenter;
 
 import android.app.Application;
 
+import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.GatherContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
@@ -11,6 +14,7 @@ import com.jess.arms.mvp.BasePresenter;
 import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
 
 /**
@@ -50,8 +54,23 @@ public class GatherPresenter extends BasePresenter<GatherContract.Model, GatherC
         this.mApplication = null;
     }
 
-    public void submit(String identity, String name, String phone, String address, float temperature, String remark) {
-        mRootView.showMessage("数据提交成功");
-        mRootView.submitSuccess();
+    public void report(String identity, String name, String phone, String address, float temperature, String remark) {
+        mModel.report(identity, name, phone, address, String.valueOf(temperature), remark)
+                .compose(ToolUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            mRootView.showMessage("数据上报成功");
+                            mRootView.reportSuccess();
+                        } else {
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("数据上报失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
+                        }
+                    }
+                });
     }
 }

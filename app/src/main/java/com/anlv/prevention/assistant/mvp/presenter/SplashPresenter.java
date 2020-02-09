@@ -23,6 +23,8 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import timber.log.Timber;
 
+import static com.anlv.prevention.assistant.app.utils.ConstantUtils.SPLASH_WAIT_TIME;
+
 
 /**
  * ================================================
@@ -88,9 +90,9 @@ public class SplashPresenter extends BasePresenter<SplashContract.Model, SplashC
         Observable.interval(200, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(value -> isFinished && (TimeUtils.getNowMills() - startTime) > 3000)
+                .takeUntil(value -> isFinished && (TimeUtils.getNowMills() - startTime) > SPLASH_WAIT_TIME)
                 .subscribe(result -> {
-                    if (isFinished && (TimeUtils.getNowMills() - startTime) > 3000)
+                    if (isFinished && (TimeUtils.getNowMills() - startTime) > SPLASH_WAIT_TIME)
                         mRootView.gotoNextPage();
                 }, Timber::e);
     }

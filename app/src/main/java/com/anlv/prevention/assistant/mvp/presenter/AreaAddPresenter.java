@@ -5,6 +5,8 @@ import android.app.Application;
 import com.anlv.prevention.assistant.app.manager.EventManager;
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.AreaAddContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.Area;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
@@ -14,7 +16,7 @@ import com.jess.arms.mvp.BasePresenter;
 import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import timber.log.Timber;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
 import static com.anlv.prevention.assistant.app.utils.ConstantUtils.EVENT_AREA_ADD;
 
@@ -59,18 +61,21 @@ public class AreaAddPresenter extends BasePresenter<AreaAddContract.Model, AreaA
     public void addArea(String name, String pin) {
         mModel.addArea(name, pin)
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        EventManager.getInstance().sendMessage(EVENT_AREA_ADD, result.getResult());
-                        mRootView.showMessage("管控区添加成功");
-                        mRootView.killMyself();
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("管控区添加失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<Area>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<Area> result) {
+                        if (result.isSucc()) {
+                            EventManager.getInstance().sendMessage(EVENT_AREA_ADD, result.getResult());
+                            mRootView.showMessage("管控区添加成功");
+                            mRootView.killMyself();
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("管控区添加失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 }

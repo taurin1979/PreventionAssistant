@@ -16,6 +16,7 @@ ext {
             espressoSdkVersion   : "3.1.0-alpha4",
             canarySdkVersion     : "1.5.4",
             roomVersion          : "2.1.0",
+            mailVersion          : "1.5.5",
     ]
 
     dependencies = [
@@ -55,7 +56,8 @@ ext {
             "recyclerViewDivider"   : "com.github.fondesa:recycler-view-divider:3.0.0",
             "protobuf"              : "com.google.protobuf:protobuf-lite:3.0.1",
             "pickerView"            : 'com.contrarywind:Android-PickerView:4.1.9',
-            "multidex"                 : "com.android.support:multidex:1.0.3",
+            "multidex"              : "com.android.support:multidex:1.0.3",
+            "appManager"            : 'com.github.nanchen2251:AppManager:1.0.1',
 
             //database
             "room"                  : "androidx.room:room-runtime:${versions["roomVersion"]}",
@@ -72,6 +74,9 @@ ext {
             "glideCompiler"         : "com.github.bumptech.glide:compiler:${versions["glideSdkVersion"]}",
             "glideLoaderOkhttp"     : "com.github.bumptech.glide:okhttp3-integration:${versions["glideSdkVersion"]}",
             "netty"                 : "io.netty:netty-all:4.1.38.Final",
+            "androidMail"           : "com.sun.mail:android-mail:${versions["mailVersion"]}",
+            "androidActivation"     : "com.sun.mail:android-activation:${versions["mailVersion"]}",
+
 
             //view
             "butterKnife"           : "com.jakewharton:butterknife:${versions["butterknifeSdkVersion"]}",

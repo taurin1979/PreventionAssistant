@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.QueryContract;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
+import com.anlv.prevention.assistant.mvp.model.api.entity.Info;
 import com.anlv.prevention.assistant.mvp.ui.adapter.InfoAdapter;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.jess.arms.di.scope.ActivityScope;
@@ -11,9 +13,12 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import timber.log.Timber;
 
 
@@ -63,21 +68,24 @@ public class QueryPresenter extends BasePresenter<QueryContract.Model, QueryCont
     public void queryRecent(String certificateNumber) {
         mModel.queryRecent(certificateNumber)
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        if (ObjectUtils.isEmpty(mAdapter)) {
-                            mAdapter = new InfoAdapter(result.getResult());
-                            mRootView.setAdapter(mAdapter);
+                .subscribe(new ErrorHandleSubscriber<BaseResult<List<Info>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<List<Info>> result) {
+                        if (result.isSucc()) {
+                            if (ObjectUtils.isEmpty(mAdapter)) {
+                                mAdapter = new InfoAdapter(result.getResult());
+                                mRootView.setAdapter(mAdapter);
+                            } else {
+                                mAdapter.updateDataList(result.getResult());
+                            }
                         } else {
-                            mAdapter.updateDataList(result.getResult());
-                        }
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("采集数据查询失败");
-                        } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("采集数据查询失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 }

@@ -6,6 +6,7 @@ import android.os.Message;
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.AreaManageContract;
 import com.anlv.prevention.assistant.mvp.model.api.entity.Area;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
 import com.anlv.prevention.assistant.mvp.ui.adapter.AreaAdapter;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.jess.arms.di.scope.ActivityScope;
@@ -16,10 +17,12 @@ import com.jess.arms.mvp.BasePresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import timber.log.Timber;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
 import static com.anlv.prevention.assistant.app.utils.ConstantUtils.EVENT_AREA_ADD;
 import static com.anlv.prevention.assistant.app.utils.ConstantUtils.EVENT_AREA_EDIT;
@@ -89,38 +92,44 @@ public class AreaManagePresenter extends BasePresenter<AreaManageContract.Model,
     public void refresh() {
         mModel.queryArea()
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        if (ObjectUtils.isEmpty(mAdapter)) {
-                            mAdapter = new AreaAdapter(result.getResult());
-                            mRootView.setAdapter(mAdapter);
+                .subscribe(new ErrorHandleSubscriber<BaseResult<List<Area>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<List<Area>> result) {
+                        if (result.isSucc()) {
+                            if (ObjectUtils.isEmpty(mAdapter)) {
+                                mAdapter = new AreaAdapter(result.getResult());
+                                mRootView.setAdapter(mAdapter);
+                            } else {
+                                mAdapter.updateDataList(result.getResult());
+                            }
                         } else {
-                            mAdapter.updateDataList(result.getResult());
-                        }
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("管控区查询失败");
-                        } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("管控区查询失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 
     public void areaDelete(Area area) {
         mModel.delArea(area.getId())
                 .compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result.isSucc()) {
-                        mAdapter.deleteItem(area);
-                        mRootView.showMessage("管控区删除成功");
-                    } else {
-                        if (ObjectUtils.isEmpty(result.getMessage())) {
-                            mRootView.showMessage("管控区删除失败");
+                .subscribe(new ErrorHandleSubscriber<BaseResult<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResult<String> result) {
+                        if (result.isSucc()) {
+                            mAdapter.deleteItem(area);
+                            mRootView.showMessage("管控区删除成功");
                         } else {
-                            mRootView.showMessage(result.getMessage());
+                            if (ObjectUtils.isEmpty(result.getMessage())) {
+                                mRootView.showMessage("管控区删除失败");
+                            } else {
+                                mRootView.showMessage(result.getMessage());
+                            }
                         }
                     }
-                }, Timber::e);
+                });
     }
 }

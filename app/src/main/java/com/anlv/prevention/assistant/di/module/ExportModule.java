@@ -1,13 +1,15 @@
 package com.anlv.prevention.assistant.di.module;
 
+import androidx.fragment.app.FragmentActivity;
+
+import com.anlv.prevention.assistant.mvp.contract.ExportContract;
+import com.anlv.prevention.assistant.mvp.model.ExportModel;
 import com.jess.arms.di.scope.ActivityScope;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-
-import com.anlv.prevention.assistant.mvp.contract.ExportContract;
-import com.anlv.prevention.assistant.mvp.model.ExportModel;
 
 
 /**
@@ -27,4 +29,10 @@ public abstract class ExportModule {
 
     @Binds
     abstract ExportContract.Model bindExportModel(ExportModel model);
+
+    @ActivityScope
+    @Provides
+    static RxPermissions provideRxPermissions(ExportContract.View view) {
+        return new RxPermissions((FragmentActivity) view.getActivity());
+    }
 }

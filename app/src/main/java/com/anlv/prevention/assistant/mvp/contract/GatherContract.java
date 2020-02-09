@@ -1,8 +1,12 @@
 package com.anlv.prevention.assistant.mvp.contract;
 
+import com.anlv.prevention.assistant.mvp.model.GatherModel;
+import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
 import com.anlv.prevention.assistant.mvp.ui.activity.GatherActivity;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -22,13 +26,22 @@ public interface GatherContract {
     interface View extends IView {
         /**
          * 数据提交成功
-         * {@link GatherActivity#submitSuccess()}
+         * {@link GatherActivity#reportSuccess()}
          */
-        void submitSuccess();
+        void reportSuccess();
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
-
+        /**
+         * 采集数据上报
+         * {@link GatherModel#report(String, String, String, String, String, String)}
+         */
+        Observable<BaseResult<String>> report(String certificateNumber,
+                                              String name,
+                                              String phoneNumber,
+                                              String address,
+                                              String temperature,
+                                              String remark);
     }
 }
