@@ -116,6 +116,47 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginTop="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/login_agree_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我已阅读并同意"
+            android:textColor="@color/font_prompt"
+            android:textSize="@dimen/font_tiny" />
+
+        <TextView
+            android:id="@+id/login_service_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《服务协议》"
+            android:textColor="#4FCBDD"
+            android:textSize="@dimen/font_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="和"
+            android:textColor="@color/font_prompt"
+            android:textSize="@dimen/font_tiny" />
+
+        <TextView
+            android:id="@+id/login_privacy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《隐私政策》"
+            android:textColor="#4FCBDD"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/login_ok_btn"
         style="@style/BaseButton"
@@ -124,5 +165,22 @@
         android:layout_marginTop="@dimen/middle_spacing_size"
         android:layout_marginEnd="@dimen/middle_spacing_size"
         android:text="@string/login_ok" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_spacing_size"
+        android:layout_marginEnd="@dimen/middle_spacing_size"
+        android:layout_marginBottom="@dimen/huge_spacing_size"
+        android:background="#4C4FCBDD"
+        android:padding="@dimen/small_spacing_size"
+        android:text="采集员\n负责上报管控区人员体温数据\n\n管理员\n负责管控区、采集员管理及体温数据表导出"
+        android:textColor="#FEFEFE"
+        android:textSize="@dimen/font_small" />
 
 </LinearLayout>

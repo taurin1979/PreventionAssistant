@@ -51,9 +51,6 @@ public class ExportModeDialog extends Dialog {
 
     public static class Builder {
         private Context mContext;
-        private String mTitle;
-        private String mPositive;
-        private String mNegative;
         private OnExportModeListener mListener;
 
         public Builder(Context context) {

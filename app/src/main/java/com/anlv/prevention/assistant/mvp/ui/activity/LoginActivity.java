@@ -5,6 +5,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -18,13 +19,17 @@ import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.di.component.DaggerLoginComponent;
 import com.anlv.prevention.assistant.mvp.contract.LoginContract;
 import com.anlv.prevention.assistant.mvp.presenter.LoginPresenter;
+import com.anlv.prevention.assistant.mvp.ui.dialog.ReadDialog;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -66,6 +71,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText etManagerCode;
     @BindView(R.id.login_manager_get_code_btn)
     Button btnGetCode;
+    @BindView(R.id.login_agree_cb)
+    CheckBox cbAgree;
 
     private long exitTime = 0;
 
@@ -88,6 +95,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void initData(@Nullable Bundle savedInstanceState) {
         btnGather.setButtonDrawable(new StateListDrawable());
         btnManager.setButtonDrawable(new StateListDrawable());
+
+        cbAgree.setChecked(SPUtils.getInstance().getBoolean("agree", false));
+        cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> SPUtils.getInstance().put("agree", isChecked));
     }
 
     @Override
@@ -155,6 +165,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     void onOkClicked(View view) {
         if (ToolUtils.isFastDoubleClick(view))
             return;
+        if (!cbAgree.isChecked()) {
+            showMessage("请阅读并同意服务协议和隐私政策");
+            return;
+        }
+
         if (btnGather.isChecked()) {
             String phoneNumber = etGatherPhone.getText().toString().trim();
             if (ObjectUtils.isEmpty(phoneNumber)) {
@@ -204,6 +219,44 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 return;
             }
             mPresenter.managerLogin(phoneNumber, phoneCode);
+        }
+    }
+
+    @OnClick(R.id.login_service_tv)
+    void onServiceClicked() {
+        try {
+            InputStream is = getResources().getAssets().open("service.txt");
+            String strContent = "";
+            byte[] content = new byte[20480];
+            int len = is.read(content);
+            if (len > 0) {
+                strContent += new String(Arrays.copyOfRange(content, 0, len));
+                new ReadDialog.Builder(this)
+                        .setTitle("服务协议")
+                        .setContent(strContent)
+                        .build()
+                        .show();
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    @OnClick(R.id.login_privacy_tv)
+    void onPrivacyClicked() {
+        try {
+            InputStream is = getResources().getAssets().open("privacy.txt");
+            String strContent = "";
+            byte[] content = new byte[20480];
+            int len = is.read(content);
+            if (len > 0) {
+                strContent += new String(Arrays.copyOfRange(content, 0, len));
+                new ReadDialog.Builder(this)
+                        .setTitle("隐私政策")
+                        .setContent(strContent)
+                        .build()
+                        .show();
+            }
+        } catch (Exception ignored) {
         }
     }
 
