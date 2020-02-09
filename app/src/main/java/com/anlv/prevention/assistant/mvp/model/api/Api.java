@@ -9,5 +9,6 @@ package com.anlv.prevention.assistant.mvp.model.api;
  * </pre>
  */
 public interface Api {
-    String APP_DOMAIN = "https://dev.collect.anlv365.com:20010/collect/";
+    String APP_DOMAIN_DEBUG = "https://dev.collect.anlv365.com:20010/collect/";
+    String APP_DOMAIN_RELEASE = "https://collect.anlv365.com:20014/collect/";
 }

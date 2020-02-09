@@ -66,7 +66,7 @@ public final class GlobalConfiguration implements ConfigModule {
 
         try {
             SSLSocketFactoryImpl sslSocketFactory = new SSLSocketFactoryImpl(KeyStore.getInstance(KeyStore.getDefaultType()));
-            mainBuilder.baseurl(Api.APP_DOMAIN)
+            mainBuilder.baseurl(BuildConfig.LOG_DEBUG ? Api.APP_DOMAIN_DEBUG : Api.APP_DOMAIN_RELEASE)
                     //这里提供一个全局处理 Http 请求和响应结果的处理类, 可以比客户端提前一步拿到服务器返回的结果, 可以做一些操作, 比如 Token 超时后, 重新获取 Token
                     .globalHttpHandler(new GlobalHttpHandlerImpl(mainContext))
                     //用来处理 RxJava 中发生的所有错误, RxJava 中发生的每个错误都会回调此接口

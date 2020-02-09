@@ -64,6 +64,7 @@ public class ConfigPresenter extends BasePresenter<ConfigContract.Model, ConfigC
                             SPUtils.getInstance().remove("loginType");
                             SPUtils.getInstance().remove("sessionId");
                             mRootView.logoutSuccess();
+                            mRootView.killMyself();
                         } else {
                             mRootView.showMessage("用户登出失败");
                         }

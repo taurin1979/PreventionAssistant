@@ -24,20 +24,56 @@
         app:layout_constraintStart_toStartOf="@id/config_title_tv"
         app:layout_constraintTop_toTopOf="@id/config_title_tv" />
 
-    <TextView
-        android:id="@+id/config_about_tv"
-        style="@style/BaseText"
+    <LinearLayout
+        android:id="@+id/config_button_panel_ll"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/middle_spacing_size"
-        android:drawableStart="@drawable/ic_about"
-        android:drawableEnd="@drawable/ic_right"
-        android:drawablePadding="@dimen/small_spacing_size"
-        android:gravity="start|center_vertical"
-        android:paddingStart="@dimen/small_spacing_size"
-        android:paddingEnd="@dimen/small_spacing_size"
-        android:text="@string/config_about"
-        app:layout_constraintTop_toBottomOf="@id/config_title_tv" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/config_title_tv">
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/separator_line"-->
+        <!--            android:background="@color/separator_line" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/config_clear_tv"-->
+        <!--            style="@style/BaseText"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="60dp"-->
+        <!--            android:drawableStart="@drawable/ic_about"-->
+        <!--            android:drawableEnd="@drawable/ic_right"-->
+        <!--            android:drawablePadding="@dimen/small_spacing_size"-->
+        <!--            android:gravity="start|center_vertical"-->
+        <!--            android:paddingStart="@dimen/small_spacing_size"-->
+        <!--            android:paddingEnd="@dimen/small_spacing_size"-->
+        <!--            android:text="清除数据" />-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/separator_line"-->
+        <!--            android:background="@color/separator_line" />-->
+
+        <TextView
+            android:id="@+id/config_about_tv"
+            style="@style/BaseText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@drawable/ic_about"
+            android:drawableEnd="@drawable/ic_right"
+            android:drawablePadding="@dimen/small_spacing_size"
+            android:gravity="start|center_vertical"
+            android:paddingStart="@dimen/small_spacing_size"
+            android:paddingEnd="@dimen/small_spacing_size"
+            android:text="@string/config_about" />
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/separator_line"-->
+        <!--            android:background="@color/separator_line" />-->
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/config_logout_btn"
@@ -47,6 +83,6 @@
         android:layout_marginTop="@dimen/small_spacing_size"
         android:layout_marginEnd="@dimen/middle_spacing_size"
         android:text="@string/config_logout"
-        app:layout_constraintTop_toBottomOf="@id/config_about_tv" />
+        app:layout_constraintTop_toBottomOf="@id/config_button_panel_ll" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

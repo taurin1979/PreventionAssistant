@@ -21,7 +21,6 @@ import com.sun.mail.util.MailSSLSocketFactory;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -148,9 +147,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                         if (ObjectUtils.isEmpty(file)) {
                             mRootView.showMessage("导出数据失败");
                         } else {
-                            List<String> pathList = new ArrayList<>();
-                            pathList.add(file.getAbsolutePath());
-                            sendEmail(mailAddress, "采集数据上报" + file.getName(), mailBody, pathList);
+                            sendEmail(mailAddress, "采集数据上报" + file.getName(), mailBody, file);
                         }
                     }
 
@@ -173,8 +170,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
     private File saveToCSV() {
         if (!SDCardUtils.isSDCardEnableByEnvironment())
             return null;
-        String dayPath = TimeUtils.date2String(TimeUtils.getNowDate(), "yyyyMMdd");
-        File rootPath = new File(SDCardUtils.getSDCardPathByEnvironment(), "PreventionAssistant/data/" + dayPath);
+        File rootPath = new File(SDCardUtils.getSDCardPathByEnvironment(), "PreventionAssistant/data");
         if (!FileUtils.createOrExistsDir(rootPath))
             return null;
         File csvFile = new File(rootPath, String.format("%s.csv", TimeUtils.date2String(TimeUtils.getNowDate(), "yyyyMMddHHmmss")));
@@ -206,9 +202,9 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
      * @param mailAddress 接收方邮箱地址
      * @param subject     邮件标题
      * @param body        正文内容
-     * @param paths       发送的附件路径集合
+     * @param file        发送的文件附件
      **/
-    private void sendEmail(String mailAddress, String subject, String body, List<String> paths) {
+    private void sendEmail(String mailAddress, String subject, String body, File file) {
         Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
             Properties props = new Properties();
             try {
@@ -235,19 +231,13 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                 BodyPart textBodyPart = new MimeBodyPart();//设置正文对象
                 textBodyPart.setText(body);//设置正文
                 multi.addBodyPart(textBodyPart);//添加正文到邮件
-                if (ObjectUtils.isNotEmpty(paths)) {
-                    for (String path : paths) {//附件文件地址
-                        if (!new File(path).exists()) {
-                            continue;
-                        }
-                        FileDataSource fds = new FileDataSource(path);//获取磁盘文件
-                        BodyPart fileBodyPart = new MimeBodyPart();//创建BodyPart
-                        fileBodyPart.setDataHandler(new DataHandler(fds));//将文件信息封装至BodyPart对象
-                        String fileNameNew = MimeUtility.encodeText(fds.getName(),
-                                "utf-8", null);//设置文件名称显示编码，解决乱码问题
-                        fileBodyPart.setFileName(fileNameNew);//设置邮件中显示的附件文件名
-                        multi.addBodyPart(fileBodyPart);//将附件添加到邮件中
-                    }
+                if (FileUtils.isFileExists(file)) {
+                    FileDataSource fds = new FileDataSource(file);//获取磁盘文件
+                    BodyPart fileBodyPart = new MimeBodyPart();//创建BodyPart
+                    fileBodyPart.setDataHandler(new DataHandler(fds));//将文件信息封装至BodyPart对象
+                    String fileNameNew = MimeUtility.encodeText(fds.getName(), "utf-8", null);//设置文件名称显示编码，解决乱码问题
+                    fileBodyPart.setFileName(fileNameNew);//设置邮件中显示的附件文件名
+                    multi.addBodyPart(fileBodyPart);//将附件添加到邮件中
                 }
                 msg.setContent(multi);//将整个邮件添加到message中
                 msg.saveChanges();
@@ -260,6 +250,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                 emitter.onError(e);
             }
         }).compose(ToolUtils.applySchedulers(mRootView))
+                .doFinally(() -> FileUtils.delete(file))
                 .subscribe(new ErrorHandleSubscriber<Boolean>(mErrorHandler) {
                     @Override
                     public void onNext(Boolean result) {

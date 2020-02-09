@@ -4,6 +4,8 @@
     package="com.anlv.prevention.assistant">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.jess.arms.base.BaseApplication"
@@ -23,9 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".mvp.ui.activity.LoginActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".mvp.ui.activity.LoginActivity" />
         <activity android:name=".mvp.ui.activity.ManagerActivity" />
         <activity android:name=".mvp.ui.activity.GatherActivity" />
         <activity android:name=".mvp.ui.activity.AreaSelectActivity" />

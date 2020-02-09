@@ -103,6 +103,5 @@ public class ConfigActivity extends BaseActivity<ConfigPresenter> implements Con
     @Override
     public void logoutSuccess() {
         ActivityUtils.startActivity(LoginActivity.class);
-        killMyself();
     }
 }
