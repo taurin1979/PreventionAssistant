@@ -27,7 +27,7 @@
         android:id="@+id/gather_area_name_tv"
         style="@style/TitleText"
         android:layout_width="match_parent"
-        android:background="#DBF8FC"
+        android:background="#333333"
         app:layout_constraintTop_toBottomOf="@id/gather_title_tv" />
 
     <LinearLayout
@@ -131,7 +131,6 @@
             android:maxLength="100"
             android:paddingStart="@dimen/middle_spacing_size"
             android:paddingEnd="@dimen/middle_spacing_size" />
-
         <Button
             android:id="@+id/gather_clear_btn"
             style="@style/BaseButton"

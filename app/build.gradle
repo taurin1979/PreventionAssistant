@@ -8,7 +8,7 @@ android {
         applicationId "com.anlv.prevention.assistant"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["compileSdkVersion"]
-        versionCode 1
+        versionCode 2
         versionName "1.0"
     }
     signingConfigs {
