@@ -1,5 +1,6 @@
 package com.anlv.prevention.assistant.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,6 @@ import com.anlv.prevention.assistant.mvp.contract.QueryContract;
 import com.anlv.prevention.assistant.mvp.presenter.QueryPresenter;
 import com.anlv.prevention.assistant.mvp.ui.adapter.InfoAdapter;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.blankj.utilcode.util.RegexUtils;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
@@ -67,6 +67,7 @@ public class QueryActivity extends BaseActivity<QueryPresenter> implements Query
         return R.layout.activity_query; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         RecyclerViewDivider.with(this)
@@ -74,6 +75,12 @@ public class QueryActivity extends BaseActivity<QueryPresenter> implements Query
                 .build()
                 .addTo(rvList);
         ArmsUtils.configRecyclerView(rvList, new LinearLayoutManager(this));
+
+        String identity = getIntent().getStringExtra("identity");
+        if (ObjectUtils.isNotEmpty(identity)) {
+            etIdentity.setText(identity);
+            mPresenter.queryRecent(identity);
+        }
     }
 
     @Override
@@ -115,10 +122,6 @@ public class QueryActivity extends BaseActivity<QueryPresenter> implements Query
         String identity = etIdentity.getText().toString().trim();
         if (ObjectUtils.isEmpty(identity)) {
             showMessage("请输入身份证号码");
-            return;
-        }
-        if (!RegexUtils.isIDCard18(identity)) {
-            showMessage("身份证号码不正确");
             return;
         }
         mPresenter.queryRecent(identity);

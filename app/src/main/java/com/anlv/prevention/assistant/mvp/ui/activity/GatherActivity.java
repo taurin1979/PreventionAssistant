@@ -1,19 +1,17 @@
 package com.anlv.prevention.assistant.mvp.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.anlv.prevention.assistant.R;
+import com.anlv.prevention.assistant.app.utils.GlobalUtils;
 import com.anlv.prevention.assistant.app.utils.JsonUtils;
-import com.anlv.prevention.assistant.app.utils.KeyBoardUtil;
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.di.component.DaggerGatherComponent;
 import com.anlv.prevention.assistant.mvp.contract.GatherContract;
@@ -47,6 +45,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class GatherActivity extends BaseActivity<GatherPresenter> implements GatherContract.View {
 
+    @BindView(R.id.gather_area_name_tv)
+    TextView tvAreaName;
     @BindView(R.id.gather_identity_et)
     EditText etIdentity;
     @BindView(R.id.gather_name_et)
@@ -59,8 +59,6 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
     EditText etTemperature;
     @BindView(R.id.gather_remark_et)
     EditText etRemark;
-    @BindView(R.id.gather_keyboard_kv)
-    KeyboardView mKeyboard;
 
     private long exitTime = 0;
 
@@ -79,15 +77,10 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
         return R.layout.activity_gather; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        etIdentity.setOnTouchListener((view, event) -> {
-            if (etIdentity.hasFocus()) {
-                new KeyBoardUtil(mKeyboard, etIdentity).showKeyboard();
-            }
-            return false;
-        });
+        if (ObjectUtils.isNotEmpty(GlobalUtils.gather))
+            tvAreaName.setText(GlobalUtils.gather.getAreaName());
     }
 
     @Override
@@ -150,7 +143,10 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
     void onQueryClicked(View view) {
         if (ToolUtils.isFastDoubleClick(view))
             return;
-        ActivityUtils.startActivityForResult(this, QueryActivity.class, REQUEST_GATHER_SELECT);
+        Bundle bundle = new Bundle();
+        String identity = etIdentity.getText().toString().trim();
+        bundle.putString("identity", identity);
+        ActivityUtils.startActivityForResult(bundle, this, QueryActivity.class, REQUEST_GATHER_SELECT);
     }
 
     @OnClick(R.id.gather_submit_btn)
