@@ -133,10 +133,18 @@
             android:paddingEnd="@dimen/middle_spacing_size" />
 
         <Button
+            android:id="@+id/gather_clear_btn"
+            style="@style/BaseButton"
+            android:layout_marginStart="@dimen/middle_spacing_size"
+            android:layout_marginTop="@dimen/middle_spacing_size"
+            android:layout_marginEnd="@dimen/middle_spacing_size"
+            android:text="@string/gather_clear" />
+
+        <Button
             android:id="@+id/gather_submit_btn"
             style="@style/BaseButton"
             android:layout_marginStart="@dimen/middle_spacing_size"
-            android:layout_marginTop="@dimen/super_spacing_size"
+            android:layout_marginTop="@dimen/small_spacing_size"
             android:layout_marginEnd="@dimen/middle_spacing_size"
             android:text="@string/gather_submit" />
 

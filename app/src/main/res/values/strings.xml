@@ -11,6 +11,7 @@
     <string name="login_ok">登录</string>
 
     <string name="gather_title">体温采集上报</string>
+    <string name="gather_clear">清除表单</string>
     <string name="gather_submit">提交</string>
 
 

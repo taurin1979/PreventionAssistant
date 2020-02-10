@@ -149,6 +149,13 @@ public class GatherActivity extends BaseActivity<GatherPresenter> implements Gat
         ActivityUtils.startActivityForResult(bundle, this, QueryActivity.class, REQUEST_GATHER_SELECT);
     }
 
+    @OnClick(R.id.gather_clear_btn)
+    void onClearClicked(View view) {
+        if (ToolUtils.isFastDoubleClick(view))
+            return;
+        clearData();
+    }
+
     @OnClick(R.id.gather_submit_btn)
     void onSubmitClicked(View view) {
         if (ToolUtils.isFastDoubleClick(view))
