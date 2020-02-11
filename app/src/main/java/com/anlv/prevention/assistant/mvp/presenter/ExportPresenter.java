@@ -1,6 +1,7 @@
 package com.anlv.prevention.assistant.mvp.presenter;
 
 import android.app.Application;
+import android.os.Environment;
 
 import com.anlv.prevention.assistant.app.utils.ToolUtils;
 import com.anlv.prevention.assistant.mvp.contract.ExportContract;
@@ -148,7 +149,6 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                         if (ObjectUtils.isEmpty(file)) {
                             mRootView.showMessage("导出数据失败");
                         } else {
-
                             sendEmail(mailAddress, "采集数据上报" + file.getName(), mailBody, file);
                         }
                     }
@@ -170,11 +170,15 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
      * 保存数据到CSV文件
      */
     private File saveToCSV() {
-        if (!SDCardUtils.isSDCardEnableByEnvironment())
+        if (!SDCardUtils.isSDCardEnableByEnvironment()) {
+            Timber.i("SD卡不可用");
             return null;
+        }
         File rootPath = new File(SDCardUtils.getSDCardPathByEnvironment(), "PreventionAssistant/data");
-        if (!FileUtils.createOrExistsDir(rootPath))
+        if (!FileUtils.createOrExistsDir(rootPath)) {
+            Timber.i("创建数据目录失败");
             return null;
+        }
         File csvFile = new File(rootPath, String.format("%s.csv", TimeUtils.date2String(TimeUtils.getNowDate(), "yyyyMMddHHmmss")));
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile, false));
@@ -193,7 +197,8 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
             }
             bw.close();
             return csvFile;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Timber.e(e, "CSV文件保存失败");
         }
         return null;
     }
@@ -260,7 +265,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
 
                     }
                 }, throwable -> {
-                    Timber.e(throwable);
+                    Timber.e(throwable, "邮件发送失败");
                     mRootView.exportFail(file);
                 });
     }

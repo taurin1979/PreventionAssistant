@@ -8,7 +8,7 @@ android {
         applicationId "com.anlv.prevention.assistant"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["compileSdkVersion"]
-        versionCode 2
+        versionCode 3
         versionName "1.0"
     }
     signingConfigs {
@@ -69,6 +69,8 @@ dependencies {
     //view
     annotationProcessor rootProject.ext.dependencies['butterKnifeCompiler']
     //test
+    api rootProject.ext.dependencies["slf4j"]
+    api rootProject.ext.dependencies["logback"]
     debugImplementation rootProject.ext.dependencies['canaryDebug']
     releaseImplementation rootProject.ext.dependencies['canaryRelease']
     testImplementation rootProject.ext.dependencies['canaryRelease']

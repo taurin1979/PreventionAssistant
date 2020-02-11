@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <!--声明一个属性,用来指定log文件存放的路径-->
+    <property name="LOG_DIR" value="/sdcard/PreventionAssistant/log" />
+
+    <!--用于在控制台输出的Appender-->
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <tagEncoder>
+            <pattern>[%thread]</pattern>
+        </tagEncoder>
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <!--声明一个RollingFileAppender-->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/PreventionAssistant_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--日志文件大小超过10MB将进行分割-->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--最大保存7天的日志-->
+            <maxHistory>7</maxHistory>
+            <!--日志总大小不能超过200MB-->
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %level/[%thread]: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="logcat" />
+        <appender-ref ref="logfile" />
+    </root>
+
+</configuration>
