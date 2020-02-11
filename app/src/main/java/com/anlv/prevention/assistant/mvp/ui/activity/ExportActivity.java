@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.File;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -64,6 +66,8 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     EditText etEndTime;
     @BindView(R.id.export_list_rv)
     RecyclerView rvList;
+    @BindView(R.id.export_fail_prompt_tv)
+    TextView tvFailPrompt;
     @BindColor(R.color.separator_line)
     int colorSeparatorLine;
 
@@ -209,5 +213,11 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     @Override
     public void setAdapter(InfoAdapter adapter) {
         rvList.setAdapter(adapter);
+    }
+
+    @Override
+    public void exportFail(File file) {
+        tvFailPrompt.setVisibility(View.VISIBLE);
+        tvFailPrompt.setText(String.format("文件发送失败，文件位置：%s", file.getAbsolutePath()));
     }
 }

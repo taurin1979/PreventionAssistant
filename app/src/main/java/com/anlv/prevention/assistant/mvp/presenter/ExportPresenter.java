@@ -41,6 +41,7 @@ import javax.mail.internet.MimeUtility;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Consumer;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import timber.log.Timber;
@@ -147,6 +148,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                         if (ObjectUtils.isEmpty(file)) {
                             mRootView.showMessage("导出数据失败");
                         } else {
+
                             sendEmail(mailAddress, "采集数据上报" + file.getName(), mailBody, file);
                         }
                     }
@@ -220,8 +222,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                 Transport transport = session.getTransport("smtp");
                 transport.connect(SERVER, FROM_USER, FROM_PASSWORD);//建立与服务器连接
                 msg.setSentDate(new Date());
-                InternetAddress fromAddress = null;
-                fromAddress = new InternetAddress(FROM_USER);
+                InternetAddress fromAddress = new InternetAddress(FROM_USER);
                 msg.setFrom(fromAddress);
                 InternetAddress[] toAddress = new InternetAddress[1];
                 toAddress[0] = new InternetAddress(mailAddress);
@@ -246,20 +247,21 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                 emitter.onNext(true);
                 emitter.onComplete();
             } catch (Exception e) {
-                Timber.e(e);
                 emitter.onError(e);
             }
         }).compose(ToolUtils.applySchedulers(mRootView))
-                .doFinally(() -> FileUtils.delete(file))
-                .subscribe(new ErrorHandleSubscriber<Boolean>(mErrorHandler) {
-                    @Override
-                    public void onNext(Boolean result) {
-                        if (result) {
-                            mRootView.showMessage("邮件发送成功");
-                        } else {
-                            mRootView.showMessage("邮件发送失败");
-                        }
+                .subscribe(result -> {
+                    if (result) {
+                        FileUtils.delete(file);
+                        mRootView.showMessage("邮件发送成功");
+                    } else {
+                        mRootView.exportFail(file);
+                        mRootView.showMessage("邮件发送失败");
+
                     }
+                }, throwable -> {
+                    Timber.e(throwable);
+                    mRootView.exportFail(file);
                 });
     }
 }

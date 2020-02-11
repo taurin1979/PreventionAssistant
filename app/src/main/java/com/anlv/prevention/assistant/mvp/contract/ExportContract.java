@@ -11,6 +11,7 @@ import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -48,6 +49,12 @@ public interface ExportContract {
          * {@link ExportActivity#setAdapter(InfoAdapter)}
          */
         void setAdapter(InfoAdapter adapter);
+
+        /**
+         * 数据导出失败
+         * {@link ExportActivity#exportFail(File)}
+         */
+        void exportFail(File file);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存

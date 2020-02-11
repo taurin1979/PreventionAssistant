@@ -97,7 +97,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/small_spacing_size"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/export_fail_prompt_tv"
         app:layout_constraintTop_toBottomOf="@id/export_query_btn" />
+
+    <TextView
+        android:id="@+id/export_fail_prompt_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/small_spacing_size"
+        android:layout_marginEnd="@dimen/small_spacing_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/export_list_rv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
