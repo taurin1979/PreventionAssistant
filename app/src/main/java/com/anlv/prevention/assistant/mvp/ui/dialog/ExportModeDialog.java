@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +17,7 @@ import com.jess.arms.utils.ArmsUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -30,6 +32,10 @@ public class ExportModeDialog extends Dialog {
 
     @BindView(R.id.export_mode_mail_address_et)
     EditText etMailAddress;
+    @BindView(R.id.export_mode_mail_panel_ll)
+    LinearLayout llMailPanel;
+    @BindView(R.id.export_mode_wechat_panel_ll)
+    LinearLayout llWechatPanel;
 
     private OnExportModeListener onExportModeListener;
 
@@ -70,6 +76,17 @@ public class ExportModeDialog extends Dialog {
         }
     }
 
+    @OnCheckedChanged(R.id.export_mode_select_mail_btn)
+    void onSelectMailChanged(boolean checked) {
+        if (checked) {
+            llMailPanel.setVisibility(View.VISIBLE);
+            llWechatPanel.setVisibility(View.GONE);
+        } else {
+            llMailPanel.setVisibility(View.GONE);
+            llWechatPanel.setVisibility(View.VISIBLE);
+        }
+    }
+
     @OnClick(R.id.export_mode_close_iv)
     void onCloseClicked() {
         dismiss();
@@ -89,6 +106,13 @@ public class ExportModeDialog extends Dialog {
         SPUtils.getInstance().put("email", mailAddress);
         if (ObjectUtils.isNotEmpty(onExportModeListener))
             onExportModeListener.onMode(1, mailAddress);
+        dismiss();
+    }
+
+    @OnClick(R.id.export_mode_wechat_panel_ll)
+    void onWechatClicked() {
+        if (ObjectUtils.isNotEmpty(onExportModeListener))
+            onExportModeListener.onMode(2, null);
         dismiss();
     }
 

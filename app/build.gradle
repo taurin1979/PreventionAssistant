@@ -8,7 +8,7 @@ android {
         applicationId "com.anlv.prevention.assistant"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["compileSdkVersion"]
-        versionCode 3
+        versionCode 4
         versionName "1.0"
     }
     signingConfigs {
@@ -63,6 +63,8 @@ dependencies {
     implementation rootProject.ext.dependencies["uuidGenerator"]
     implementation rootProject.ext.dependencies["eventbus"]
     implementation rootProject.ext.dependencies["pickerView"]
+    implementation rootProject.ext.dependencies["wechat"]
+
     //network
     implementation rootProject.ext.dependencies["androidMail"]
     implementation rootProject.ext.dependencies["androidActivation"]

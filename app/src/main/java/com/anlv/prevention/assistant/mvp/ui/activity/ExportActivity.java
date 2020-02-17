@@ -22,6 +22,7 @@ import com.anlv.prevention.assistant.mvp.ui.adapter.InfoAdapter;
 import com.anlv.prevention.assistant.mvp.ui.dialog.ExportModeDialog;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
@@ -29,6 +30,11 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXFileObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.File;
 import java.util.Calendar;
@@ -57,6 +63,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class ExportActivity extends BaseActivity<ExportPresenter> implements ExportContract.View {
 
     private final static String TIME_PATTERN = "yyyy-MM-dd";
+    private static final String APP_ID = "wxad4ebf1fe7785bbf";
 
     @Inject
     RxPermissions mRxPermissions;
@@ -70,6 +77,8 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     TextView tvFailPrompt;
     @BindColor(R.color.separator_line)
     int colorSeparatorLine;
+
+    private IWXAPI mApi;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -95,6 +104,10 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
                 .build()
                 .addTo(rvList);
         ArmsUtils.configRecyclerView(rvList, new LinearLayoutManager(this));
+
+        //ed1f042ad47e97af118f9d02d811d294
+        mApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
+        mApi.registerApp(APP_ID);
     }
 
     @Override
@@ -189,14 +202,22 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     void onExportClicked(View view) {
         if (ToolUtils.isFastDoubleClick(view))
             return;
+        tvFailPrompt.setVisibility(View.GONE);
         if (mPresenter.getExportCount() == 0) {
             showMessage("没有需要导出的数据");
             return;
         }
         new ExportModeDialog.Builder(this)
                 .setOnExportModeListener((mode, data) -> {
-                    if (mode == 1 && ObjectUtils.isNotEmpty(data))
-                        mPresenter.exportData(data);
+                    switch (mode) {
+                        case 1:
+                            if (ObjectUtils.isNotEmpty(data))
+                                mPresenter.exportMail(data);
+                            break;
+                        case 2:
+                            mPresenter.shareToWechat(mApi);
+                            break;
+                    }
                 }).build().show();
     }
 

@@ -8,6 +8,7 @@ import com.anlv.prevention.assistant.mvp.contract.ExportContract;
 import com.anlv.prevention.assistant.mvp.model.api.entity.BaseResult;
 import com.anlv.prevention.assistant.mvp.model.api.entity.Info;
 import com.anlv.prevention.assistant.mvp.ui.adapter.InfoAdapter;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SDCardUtils;
@@ -18,6 +19,10 @@ import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.PermissionUtil;
 import com.sun.mail.util.MailSSLSocketFactory;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXFileObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -140,7 +145,7 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
     /**
      * 导出数据
      */
-    public void exportData(String mailAddress) {
+    public void exportMail(String mailAddress) {
         PermissionUtil.externalStorage(
                 new PermissionUtil.RequestPermission() {
                     @Override
@@ -150,6 +155,31 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
                             mRootView.showMessage("导出数据失败");
                         } else {
                             sendEmail(mailAddress, "采集数据上报" + file.getName(), mailBody, file);
+                        }
+                    }
+
+                    @Override
+                    public void onRequestPermissionFailure(List<String> permissions) {
+                        mRootView.showMessage("没有外部存取权限");
+                    }
+
+                    @Override
+                    public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
+                        mRootView.showMessage("没有外部存取权限");
+                    }
+                }, mRootView.getRxPermissions(), mErrorHandler);
+    }
+
+    public void shareToWechat(IWXAPI api) {
+        PermissionUtil.externalStorage(
+                new PermissionUtil.RequestPermission() {
+                    @Override
+                    public void onRequestPermissionSuccess() {
+                        File file = saveToCSV();
+                        if (ObjectUtils.isEmpty(file)) {
+                            mRootView.showMessage("导出数据失败");
+                        } else {
+                            shareFileToWechat(api, file);
                         }
                     }
 
@@ -254,19 +284,37 @@ public class ExportPresenter extends BasePresenter<ExportContract.Model, ExportC
             } catch (Exception e) {
                 emitter.onError(e);
             }
-        }).compose(ToolUtils.applySchedulers(mRootView))
-                .subscribe(result -> {
-                    if (result) {
-                        FileUtils.delete(file);
-                        mRootView.showMessage("邮件发送成功");
-                    } else {
-                        mRootView.exportFail(file);
-                        mRootView.showMessage("邮件发送失败");
+        }).compose(ToolUtils.applySchedulers(mRootView)).subscribe(result -> {
+            if (result) {
+                FileUtils.delete(file);
+                mRootView.showMessage("邮件发送成功");
+            } else {
+                mRootView.exportFail(file);
+                mRootView.showMessage("邮件发送失败");
 
-                    }
-                }, throwable -> {
-                    Timber.e(throwable, "邮件发送失败");
-                    mRootView.exportFail(file);
-                });
+            }
+        }, throwable -> {
+            Timber.e(throwable, "邮件发送失败");
+            mRootView.exportFail(file);
+        });
+    }
+
+
+    private void shareFileToWechat(IWXAPI api, File file) {
+        WXFileObject fileObject = new WXFileObject();
+        fileObject.fileData = FileIOUtils.readFile2BytesByChannel(file);
+        fileObject.filePath = file.getAbsolutePath();
+
+        WXMediaMessage msg = new WXMediaMessage(fileObject);
+        msg.title = file.getName();
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = ToolUtils.createUUID();
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneSession;
+
+        if (!api.sendReq(req)) {
+            mRootView.exportFail(file);
+        }
     }
 }

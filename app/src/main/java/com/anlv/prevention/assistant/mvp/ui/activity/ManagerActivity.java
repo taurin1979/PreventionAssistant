@@ -15,6 +15,8 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.OnClick;
 
@@ -54,7 +56,6 @@ public class ManagerActivity extends BaseActivity<ManagerPresenter> implements M
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override

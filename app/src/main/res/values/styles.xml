@@ -84,4 +84,16 @@
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
+    <!--导出方式选择按钮样式-->
+    <style name="ExportTabButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@drawable/export_tab_button_text</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
 </resources>
